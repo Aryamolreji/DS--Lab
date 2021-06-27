@@ -1,0 +1,142 @@
+#include <stdio.h>  
+#include<stdlib.h>
+ 
+int queue[100],max;  // array declaration  
+int front=-1;  
+int rear=-1;  
+// function to insert an element in a circular queue  
+void enqueue()  
+{  int x;
+    if((rear+1)%max==front)  // condition to check queue is full  
+    {  
+        printf("Queue is overflow..");  
+    }  
+     
+    else 
+    {
+        printf("\nEnter the element to be inserted");
+        scanf("%d",&x);
+        if(front==-1 && rear==-1)   // condition to check queue is empty  
+    {  
+        front=0;  
+        rear=0;  
+        queue[rear]=x;  
+    } 
+    else  
+    {  
+          
+        rear=(rear+1)%max;       // rear is incremented  
+        queue[rear]=x;     // assigning a value to the queue at the rear position.  
+    } 
+    }
+}  
+  
+// function to delete the element from the queue  
+int dequeue()  
+{  
+    if((front==-1) && (rear==-1))  // condition to check queue is empty  
+    {  
+        printf("\nQueue is underflow..");  
+    }  
+ else if(front==rear)  
+{  
+   printf("\nThe dequeued element is %d", queue[front]);  
+   front=-1;  
+   rear=-1;  
+}   
+else  
+{  
+    printf("\nThe dequeued element is %d", queue[front]);  
+   front=(front+1)%max;  
+}  
+}  
+// function to display the elements of a queue  
+void display()  
+{  
+    
+    if(front==-1 && rear==-1)  
+    {  
+        printf("\n Queue is empty..");  
+    }  
+    else  
+    {  
+        printf("\nElements in a Queue are :");  
+        for(int i=front;;i=(i+1)%max)  
+        {
+            printf("%d ", queue[i]);  
+            if((i+1)%max==rear)
+            break;
+        }
+        
+     printf("%d.", queue[rear]);
+    }  
+}  
+void Search()  
+{  
+    int key,count=0;
+    if(front==-1 && rear==-1)  
+    {  
+        printf("\n Queue is empty..");  
+    }  
+    else  
+    {  
+        printf("\nenter the element to be searched");  
+        scanf("%d",&key);
+        for(int i=front;i<=rear;i=(i+1)%max)  
+        {
+            printf("%d ", queue[i]);  
+            if((i+1)%max==rear)
+            break;
+            if(queue[i]==key)
+                count++;
+        }
+        
+            if(queue[rear]==key)
+                count++;
+        
+        
+        if(count>0)
+            printf("\nelement is found");
+        else
+            printf("\nelement not found");
+     
+    }  
+}  
+
+void main()  
+{  
+    int choice=1,x;   // variables declaration  
+    printf("\nEnter the size of array");
+    scanf("%d",&max);
+    while(choice!=5)   // while loop  
+    {  
+    printf("\n Press 1: Insert an element");  
+    printf("\nPress 2: Delete an element");  
+    printf("\nPress 3: Display the element"); 
+    printf("\nPress 4: Search the element"); 
+    printf("\nPress 5: Exit"); 
+    printf("\nEnter your choice");  
+    scanf("%d", &choice);  
+      
+    switch(choice)  
+    {  
+          
+        case 1:  
+      
+        
+        enqueue();  
+        break;  
+        case 2:  
+        dequeue();  
+        break;  
+        case 3:  
+        display(); 
+        break;
+        case 4: Search();
+         break;
+        case 5:exit(0);
+        default: printf("\nInvalid choice");
+  
+    }}  
+    
+}

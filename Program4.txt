@@ -1,0 +1,382 @@
+PROGRAM
+Aim: Program to implement linked list operations	
+#include<stdio.h>
+#include<stdlib.h>
+#include<malloc.h>
+struct node
+{
+int data;
+struct node *prev;
+struct node *next;
+};
+struct node *header = NULL;
+void searching()
+{
+struct node *temp;
+int key,pos=0;
+temp=header;
+printf("\nEnter the data to be searched");
+scanf("%d",&key);
+while(temp->data!=key)
+{
+temp=temp->next;
+pos++;
+if(temp==NULL)
+break;
+}
+if(temp==NULL){
+printf("\nThe %d value does not exist in the list ",key);
+return;
+}
+if(temp->data==key){
+printf("\n%d is available in location '%d'",key,pos+1);
+}
+}
+void delete_specific_loc()
+{
+struct node *temp,*p;
+int key;
+printf("\nEnter the value of the node to be deleted : ");
+scanf("%d",&key);
+temp=header;
+while(temp->data!=key)
+{
+p=temp;
+temp=temp->next;
+if(temp==NULL)
+break;
+}
+if(temp==NULL){
+printf("The %d value does not exist in the list ",key);
+return;
+}
+if(temp->data==key){
+printf("%d deleted ",temp->data);
+p->next=temp->next;
+temp->next->prev=p;
+free(temp);
+}
+}
+void delete_end()
+{
+struct node *temp,*p;
+temp=header;
+while(temp->next!=NULL)
+{
+p=temp;
+temp=temp->next;
+}
+printf("%d deleted ",temp->data);
+free(temp);
+p->next=NULL;
+}
+void delete_begin()
+{
+struct node *temp;
+temp=header;
+if(temp==NULL)
+{
+printf("The list is empty");
+}
+else
+{
+header=temp->next;
+temp->next->prev=NULL;
+printf("%d deleted ",temp->data);
+free(temp);
+}
+}
+void insert_end()
+{
+struct node *temp,*ptr;
+ptr=(struct node *)malloc(sizeof(struct node *));
+ptr->next=NULL;
+temp=header;
+if(ptr==NULL)
+printf("\nNo space available ");
+else
+{
+while(temp->next!=NULL)
+temp=temp->next;
+printf("\nEnter the data to be inserted : ");
+scanf("%d",&ptr->data);
+temp->next=ptr;
+ptr->prev=temp;
+ptr->next=NULL;
+printf("\n%d inserted ",ptr->data);
+}
+}
+void insert_random()
+{
+int key;
+struct node *temp,*ptr;
+ptr=(struct node *)malloc(sizeof(struct node *));
+ptr->next=NULL;
+printf("\nEnter the value of the node after which the new node to be inserted : ");
+scanf("%d",&key);
+temp=header;
+while(temp->data!=key){
+temp=temp->next;
+if(temp==NULL)
+break;
+}
+if(temp==NULL){
+printf("The %d value does not exist in the list ",key);
+return;
+}
+if(temp->data==key){
+if(ptr==NULL)
+printf("\nNo space available ");
+else{
+printf("\nEnter the data to be inserted : ");
+scanf("%d",&ptr->data);
+ptr->next=temp->next;
+ptr->prev=temp;
+temp->next=ptr;
+printf("\n%d inserted after %d ",ptr->data,key);
+}
+}
+}
+void insert_begin()
+{
+struct node *ptr;
+ptr=(struct node *)malloc(sizeof(struct node *));
+if(ptr==NULL)
+    {
+    printf("\nNo space available ");
+    }
+else
+    {
+    printf("\nEnter the data to be inserted : ");
+    scanf("%d",&ptr->data);
+    ptr->next=NULL;
+    if(header==NULL)
+    {
+        header=ptr;
+        ptr->prev=NULL;
+        ptr->next=NULL;
+    }
+    else
+    {
+        ptr->prev=NULL;
+        ptr->next=header;
+        header->prev=ptr;
+        header=ptr;
+        
+    }
+printf("\n%d inserted into the list",ptr->data);
+}
+}
+void display()
+{
+struct node *p;
+if(header==NULL)
+printf("List is empty");
+else{
+printf("\nElements in link list are : ");
+p=header;
+while(p!=NULL){
+printf("\t%d",p->data);
+p=p->next;
+}
+}
+}
+void main()
+{
+int choice;
+do
+{
+printf("\n\n1.Insert in begining\n2.Insert at last\n3.Insert at any random location\n4.Delete from Beginning\n5.Delete from last\n6.Delete node after specified location\n7.Search for an element\n8.Display\n9.Exit");
+printf("\nEnter a choice ");
+scanf("%d",&choice);
+switch(choice)
+{
+case 1:insert_begin();break;
+case 2:insert_end();break;
+case 3:insert_random();break;
+case 4:delete_begin();break;
+case 5:delete_end();break;
+case 6:delete_specific_loc();break;
+case 7:searching();break;
+case 8:display();break;
+case 9:exit(0);
+default: printf("\nChoosen an invalid number");
+}
+}while(choice!=9);
+}
+OUTPUT
+1.Insert in begining                                                                                                                            
+2.Insert at last                                                                                                                                
+3.Insert at any random location                                                                                                                 
+4.Delete from Beginning                                                                                                                         
+5.Delete from last                                                                                                                              
+6.Delete node after specified location                                                                                                          
+7.Search for an element                                                                                                                         
+8.Display                                                                                                                                       
+9.Exit                                                                                                                                          
+Enter a choice 1                                                                                                                                
+                                                                                                                                                
+Enter the data to be inserted : 10                                                                                                             
+                                                                                                                                                
+10 inserted into the list                                                                                                                       
+                                                                                                                                               
+1.Insert in begining                                                                                                                        
+2.Insert at last                                                                                                                                
+3.Insert at any random location                                                                                                              
+4.Delete from Beginning                                                                                                                         
+5.Delete from last                                                                                                                              
+6.Delete node after specified location                                                                                                          
+7.Search for an element                                                                                                                         
+8.Display                                                                                                                                       
+9.Exit                                                                                                                                          
+Enter a choice 1                                                                                                                                
+                                                                                                                                                
+Enter the data to be inserted : 20                                                                                                             
+                                                                                                                                                
+20 inserted into the list  
+
+1.Insert in begining                                                                                                                            
+2.Insert at last                                                                                                                                
+3.Insert at any random location                                                                                                                 
+4.Delete from Beginning                                                                                                                         
+5.Delete from last                                                                                                                              
+6.Delete node after specified location                                                                                                          
+7.Search for an element                                                                                                                         
+8.Display                                                                                                                                       
+9.Exit                                                                                                                                          
+Enter a choice 2                                                                                                                                
+                                                                                                                                                
+Enter the data to be inserted : 30                                                                                                             
+                                                                                                                                                
+30 inserted                                                                                                                                     
+                                                                                                                                                
+1.Insert in begining                                                                                                                            
+2.Insert at last                                                                                                                                
+3.Insert at any random location                                                                                                                 
+4.Delete from Beginning                                                                                                                         
+5.Delete from last                                                                                                                              
+6.Delete node after specified location                                                                                                          
+7.Search for an element                                                                                                                         
+8.Display                                                                                                                                       
+9.Exit                                                                                                                                          
+Enter a choice 8                                                                                                                                
+                                                                                                                                                
+Elements in link list are :  10 20 30      
+
+1.Insert in begining                                                                                                                            
+2.Insert at last                                                                                                                                
+3.Insert at any random location                                                                                                                 
+4.Delete from Beginning                                                                                                                         
+5.Delete from last                                                                                                                              
+6.Delete node after specified location                                                                                                          
+7.Search for an element                                                                                                                         
+8.Display                                                                                                                                       
+9.Exit                                                                                                                                          
+Enter a choice 3                                                                                                                                
+                                                                                                                                                
+Enter the value of the node after which the new node to be inserted : 20                                                                        
+                                                                                                                                                
+Enter the data to be inserted : 25                                                                                                             
+                                                                                                                                                
+25 inserted after 20                                                                                                                            
+                                                                                                                                                
+1.Insert in begining                                                                                                                            
+2.Insert at last                                                                                                                                
+3.Insert at any random location                                                                                                                 
+4.Delete from Beginning                                                                                                                         
+5.Delete from last                                                                                                                              
+6.Delete node after specified location                                                                                                          
+7.Search for an element                                                                                                                         
+8.Display                                                                                                                                       
+9.Exit                                                                                                                                          
+Enter a choice 8                                                                                                                                
+                                                                                                                                                
+Elements in link list are :    10 20 25 30                                                                                                                
+                                                                                                                                                
+
+1.Insert in begining                                                                                                                            
+2.Insert at last                                                                                                                                
+3.Insert at any random location                                                                                                                 
+4.Delete from Beginning                                                                                                                         
+5.Delete from last                                                                                                                              
+6.Delete node after specified location                                                                                                          
+7.Search for an element                                                                                                                         
+8.Display                                                                                                                                       
+9.Exit                                                                                                                                          
+Enter a choice 4                                                                                                                              
+10 deleted                                                                                                                                     
+                                                                                                                                                
+1.Insert in begining                                                                                                                            
+2.Insert at last                                                                                                                                
+3.Insert at any random location                                                                                                                 
+4.Delete from Beginning                                                                                                                         
+5.Delete from last                                                                                                                              
+6.Delete node after specified location                                                                                                          
+7.Search for an element                                                                                                                         
+8.Display                                                                                                                                       
+9.Exit                                                                                                                                          
+Enter a choice 8                                                                                                                                
+                                                                                                                                                
+Elements in link list are :  20 25 30   
+1.Insert in begining                                                                                                                            
+2.Insert at last                                                                                                                                
+3.Insert at any random location                                                                                                                 
+4.Delete from Beginning                                                                                                                         
+5.Delete from last                                                                                                                              
+6.Delete node after specified location                                                                                                          
+7.Search for an element                                                                                                                         
+8.Display                                                                                                                                       
+9.Exit                                                                                                                                          
+Enter a choice 5                                                                                                                                
+30 deleted                                                                                                                                      
+                                                                                                                                                
+1.Insert in begining                                                                                                                            
+2.Insert at last                                                                                                                                
+3.Insert at any random location                                                                                                                 
+4.Delete from Beginning                                                                                                                         
+5.Delete from last                                                                                                                              
+6.Delete node after specified location                                                                                                          
+7.Search for an element                                                                                                                         
+8.Display                                                                                                                                       
+9.Exit                                                                                                                                          
+Enter a choice 8                                                                                                                                
+                                                                                                                                                
+Elements in link list are :   20 25 
+
+1.Insert in begining                                                                                                                            
+2.Insert at last                                                                                                                                
+3.Insert at any random location                                                                                                                 
+4.Delete from Beginning                                                                                                                         
+5.Delete from last                                                                                                                              
+6.Delete node after specified location                                                                                                          
+7.Search for an element                                                                                                                         
+8.Display                                                                                                                                       
+9.Exit                                                                                                                                          
+Enter a choice 7  
+Enter the data to be searched 25                                                                                                                 
+                                                                                                                                                
+25 is available in location '2'                                                                                                                             
+                                                                                                                                                                                                                                                                                                                                                                                           
+1.Insert in begining     
+2.Insert at last                                                                                                                                                                                                                                                 
+3.Insert at any random location 
+4.Delete from Beginning 
+5.Delete from last                                                                                                                              
+6.Delete node after specified location                                                                                                          
+7.Search for an element                                                                                                                         
+8.Display                                                                                                                                                                                                                                                                                                                                               
+Enter a choice 8                                                                                                                                
+                                                                                                                                                
+Elements in link list are : 20        
+
+1.Insert in begining                                                                                                                            
+2.Insert at last                                                                                                                                
+3.Insert at any random location                                                                                                                 
+4.Delete from Beginning                                                                                                                         
+5.Delete from last                                                                                                                              
+6.Delete node after specified location                                                                                                          
+7.Search for an element                                                                                                                         
+8.Display                                                                                                                                       
+9.Exit                                                                                                                                          
+Enter a choice 9                                                                                                                              
+                                                                                                                                                

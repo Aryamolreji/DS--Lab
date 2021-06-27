@@ -1,0 +1,721 @@
+Source Code :
+
+
+#include <stdio.h> void main()
+{
+int U[5]={1,2,3,4,5},A[5]={1,0,0,1,1},B[5]={0,1,1,1,0},uni[5],ints[5],diffA[5],diffB[5],
+i,compA[5],compB[5];
+
+
+printf("The universal set : "); for(i=0;i<5;i++) printf("%d\t",U[i]); printf("\nThe Set A : "); for(i=0;i<5;i++)
+{
+
+if(A[i]==1)
+printf("%d\t",U[i]);
+
+}
+
+printf("\nThe Set B : "); for(i=0;i<5;i++)
+{
+
+if(B[i]==1)
+
+printf("%d\t",U[i]);
+}
+
+printf("\nBit representation of AUB : "); for(i=0;i<5;i++)
+{
+
+uni[i]=A[i]|B[i];
+
+printf("%d\t",uni[i]);
+}
+
+printf("\n AUB =\t"); for(i=0;i<5;i++)
+ 
+{
+
+if(uni[i]==1) printf("%d\t",U[i]);
+}
+
+
+
+
+printf("\nBit representation of AnB : "); for(i=0;i<5;i++)
+{
+ints[i]=A[i]&B[i];
+
+printf("%d\t",ints[i]);
+
+}
+
+printf("\n AnB =\t"); for(i=0;i<5;i++)
+{
+
+if(ints[i]==1) printf("%d\t",U[i]);
+}
+
+
+printf("\nComplement of A : "); for(i=0;i<5;i++)
+{
+
+compA[i]=1-A[i];
+printf("%d\t",compA[i]);
+
+}
+
+printf("\nA' =\t"); for(i=0;i<5;i++)
+{
+
+if(compA[i]==1) printf("%d\t",U[i]);
+}
+ 
+
+printf("\nComplement of B : "); for(i=0;i<5;i++)
+{
+
+compB[i]=1-B[i];
+
+printf("%d\t",compB[i]);
+}
+
+printf("\nB' =\t"); for(i=0;i<5;i++)
+{
+
+if(compB[i]==1) printf("%d\t",U[i]);
+}
+
+
+printf("\nDifference of A : "); for(i=0;i<5;i++)
+{
+
+diffA[i]=A[i]&compB[i];
+
+printf("%d\t",diffA[i]);
+
+}
+printf("\n A-B =\t"); for(i=0;i<5;i++)
+{
+if(diffA[i]==1) printf("%d\t",U[i]);
+}
+
+
+printf("\nDifference of B : "); for(i=0;i<5;i++)
+{
+diffB[i]=B[i]&compA[i];
+ 
+printf("%d\t",diffB[i]);
+
+}
+printf("\n B-A =\t"); for(i=0;i<5;i++)
+{
+
+if(diffB[i]==1) printf("%d\t",U[i]);
+}
+
+
+}
+
+
+
+Output:
+The universal set : 1	
+2	
+3	
+4	
+5	
+The Set A : 1	4	5				
+The Set B : 2	3	4				
+Bit representation of	AUB : 1	1	1	1	1
+AUB = 1	2	3	4	5		
+Bit representation of	AnB : 0	0	0	1	0
+AnB = 4					
+Complement of A : 0	1	1	0	0	
+A' =	2	3					
+Complement of B : 1	0	0	0	1	
+B' =	1	5					
+Difference of A : 1	0	0	0	1	
+A-B = 1	5					
+Difference of B : 0	1	1	0	0	
+B-A = 2	3					
+
+Source code : #include<stdio.h> #include<stdlib.h>
+
+
+struct node
+
+{
+int key; int color;
+struct node *left; struct node *right; struct node *p;
+};
+
+
+struct node *root=NULL;
+
+
+
+
+void left_rotate(struct node *x)
+
+{
+
+struct node *y; y=x->right;
+x->right=y->left; if(y->left!=NULL) y->left->p=x;
+y->p=x->p;
+if(x->p==NULL)
+
+root=y;
+else if (x==x->p->left) x->p->left=y;
+else
+
+x->p->right=y; y->left=x;
+ 
+x->p=y;
+
+}
+
+
+void right_rotate(struct node *x)
+
+{
+
+struct node *y = x->left; x->left = y->right;
+if (x->left!=NULL) x->left->p = x;
+y->p = x->p;
+
+if (x->p==NULL)
+
+root = y;
+
+else if (x == x->p->left) x->p->left = y;
+else
+
+x->p->right = y; y->right = x;
+x->p = y;
+
+}
+
+void inorder(struct node *temp)
+{
+
+if(root == NULL)
+
+{		printf("\nTree is Empty..!!"); return;
+}
+
+if (temp==NULL) return;
+inorder(temp -> left); if(temp->color==1)
+printf("\n%d : RED ",temp->key);
+else
+ 
+printf("\n%d : BLACK",temp->key); inorder(temp -> right);
+}
+
+
+void search()
+
+{
+struct node *temp; int item,flag=0; temp=root; if(root==NULL)
+printf("\nTree is Empty");
+
+else
+
+{
+printf("\nEnter the Value to be Searched"); scanf("%d",&item);
+while(temp!=NULL)
+{
+
+if(temp->key==item) flag=1;
+if(item < temp->key) temp=temp->left;
+else
+
+temp=temp->right;
+}
+
+if(flag==1)
+
+printf("\nElement is Found");
+else
+
+printf("\nElement not Found");
+
+}
+
+}
+void insert_fixup(struct node *z)
+ 
+{
+
+if(z==root)
+{
+
+z->color=0; return;
+}
+
+
+while( z->p->color == 1 && z!=root)
+
+{
+if(z->p == z->p->p->left)
+
+{
+
+
+if( z->p->p->right!=NULL)
+{
+
+if(z->p->p->right->color == 1)
+
+{
+z->p->color = 0;
+
+z->p->p->right->color = 0;
+
+z->p->p->color = 1; z = z->p->p;
+}
+
+}
+
+else
+{
+
+if(z == z->p->right)
+
+{
+z = z->p; left_rotate(z);
+}
+
+
+z->p->color = 0;
+ 
+z->p->p->color = 1; right_rotate(z->p->p);
+}
+
+}
+
+
+else
+{
+
+if(z->p->p->left != NULL)
+
+{
+if(z->p->p->left->color == 1)
+
+{
+
+z->p->color = 0;
+
+z->p->p->left->color = 0;
+z->p->p->color = 1; z = z->p->p;
+
+}}
+
+
+else
+
+{
+if(z == z->p->left)
+
+{
+
+z = z->p; right_rotate(z);
+}
+
+
+z->p->color = 0;
+
+z->p->p->color = 1; left_rotate(z->p->p);
+
+}
+ 
+}
+
+
+}
+
+
+root->color = 0;
+
+}
+void insertion()
+
+{
+
+int key;
+struct node *ptr,*temp,*temp1;
+
+ptr=(struct node*)malloc(sizeof(struct node)); if(ptr==NULL)
+printf("\nNo Space is Available");
+else
+
+{
+
+printf("\nEnter the data to be inserted : "); scanf("%d",&key);
+ptr->key=key; ptr->left=NULL; ptr->right=NULL; if(root==NULL)
+{
+
+ptr->p=NULL; root=ptr;
+}
+
+else
+{
+
+temp=root; while(temp!=NULL)
+{
+ 
+temp1=temp;
+
+if(key < temp->key) temp=temp->left;
+else
+
+temp=temp->right;
+
+}
+ptr->p=temp1; if(key< temp1->key)
+temp1->left=ptr;
+else
+
+temp1->right=ptr;
+
+}
+
+ptr->color=1; insert_fixup(ptr);
+}
+
+}
+
+
+void transplant(struct node *x,struct node *y)
+
+{
+
+if(x->p==NULL)
+root=y;
+
+else if(x==x->p->left) x->p->left=y;
+else
+
+x->p->right=y; if(y!=NULL)
+y->p=x->p;
+
+}
+
+struct node* tree_minimum(struct node *x)
+
+{
+while (x->left!=NULL)
+ 
+x=x->left; return x;
+}
+
+
+
+
+void delete_fixup(struct node *x){ struct node *w;
+
+
+while(x != root && x->color == 0)
+{
+
+if(x == x->p->left){ w = x->p->right;
+
+if(w->color == 1){
+
+w->color = 0;
+
+x->p->color = 1; left_rotate(x->p); w = x->p->right;
+}
+
+
+if(w->left->color == 0 && w->right->color == 0){ w->color = 1;
+x->p->color =0; x = x->p;
+}
+
+else{
+
+
+if(w->right->color == 0){
+
+w->color = 1;
+
+w->left->color = 0; right_rotate(w);
+ 
+w = x->p->right;
+
+}
+
+
+w->color = x->p->color; x->p->color = 0;
+x->right->color = 0; left_rotate(x->p);
+x = root;
+
+
+}
+
+
+}
+
+else{
+w = x->p->left;
+
+
+if(w->color == 1){
+w->color = 0;
+
+x->p->color = 0; right_rotate(x->p); w = x->p->left;
+}
+
+
+if(w->left->color == 0 && w->right->color == 0){ w->color = 1;
+x->p->color = 0; x = x->p;
+}
+
+else{
+
+
+if(w->left->color == 0){
+w->color = 1;
+ 
+w->right->color = 0; left_rotate(w);
+w = x->p->left;
+
+}
+
+
+w->color = x->p->color; x->p->color = 0;
+w->left->color = 0; right_rotate(x->p); x = root;
+
+
+}
+
+}
+
+
+}
+
+
+x->color = 0;
+
+}
+
+
+void deletion()
+{
+
+struct node *y, *x,*z; int yOriginalColor,key; if (root==NULL)
+printf("\nTree is Empty..!!");
+
+else
+{
+
+printf("\nEnter the Key to be Deleted : "); scanf("%d",&key);
+z=root;
+while(z!=NULL && z->key!=key)
+ 
+{
+
+if(key < z->key) z=z->left;
+else
+
+z=z->right;
+
+}
+
+
+if(z==NULL)
+
+printf("\nKey is Not Found in the Tree");
+else
+
+{
+
+y = z;
+
+yOriginalColor = y->color; if(z->left == NULL)
+{
+
+x = z->right; transplant(z, z->right);
+}
+
+else if(z->right == NULL)
+
+{
+x = z->left; transplant(z, z->left);
+}
+else
+
+{
+
+y = tree_minimum(z->right); yOriginalColor = y->color;
+
+
+x = y->right;
+
+
+if(y->p == z)
+ 
+{
+
+x->p = y;
+
+}
+
+else
+
+{
+
+transplant(y, y->right); y->right = z->right;
+y->right->p = y;
+
+}
+
+
+transplant(z, y); y->left = z->left; y->left->p = y;
+y->color = z->color;
+
+}
+
+
+if(yOriginalColor == 0)
+
+{
+
+delete_fixup(x);
+
+}	}	}
+
+}
+
+
+
+
+void main()
+
+{
+
+int choice=1; while(choice!=5)
+{
+
+
+printf("\n\n 1.Insertion\n 2.Deletion\n 3.Display\n 4.Search\n 5.Exit"); printf("\n\n Enter your choice : ");
+ 
+scanf("%d",&choice); switch(choice)
+{
+
+case 1:insertion();break; case 2:deletion();break; case 3:inorder(root);break; case 4:search();break;
+case 5:exit(0);
+
+default:printf("\n Invalide Choice..!!");
+}
+
+}
+
+}
+
+Output:
+
+
+1.Insertion 2.Deletion 3.Display 4.Search 5.Exit
+
+Enter your choice : 1
+
+
+Enter the data to be inserted : 20
+
+
+1.Insertion 2.Deletion 3.Display 4.Search 5.Exit 
+Enter your choice : 3
+
+
+20 : BLACK
+
+1.	Insertion 2.Deletion 3.Display 4.Search 5.Exit
+
+Enter your choice : 1
+
+
+Enter the data to be inserted : 30
+
+
+
+1.Insertion 2.Deletion 3.Display
+     4.Search 
+    5.Exit
+
+
+Enter your choice : 3	
+
+
+20 : BLACK
+30 : RED 
+
+1.	Insertion 2.Deletion 3.Display 4.Search 5.Exit
+
+Enter your choice : 1
+
+
+Enter the data to be inserted : 15
+
+
+
+1.Insertion 2.Deletion 3.Display 4.Search 5.Exit
+Enter your choice : 3
+
+
+15 : RED
+
+20 : BLACK
+
+30 : RED
+
+
+
+1.	Insertion 2.Deletion 3.Display 4.Search 5.Exit 
+
+
+Enter your choice : 4
+
+
+Enter the Value to be Searched45
+
+
+Element not Found
+
+1.Insertion 2.Deletion 3.Display 4.Search 5.Exit
+
+Enter your choice : 4
+
+
+Enter the Value to be Searched5	30
+
+
+Element is Found
+
+1.Insertion 2.Deletion 3.Display 4.Search 5.Exit
+
+Enter your choice : 2
+
+
+Enter the Key to be Deleted : 30
+
+
+ 
+
+
+1.Insertion 2.Deletion 3.Display 4.Search 5.Exit
+
+
+Enter your choice : 4	3
+
+
+15 : RED
+
+20 : BLACK
+
+1.	Insertion 2.Deletion 3.Display 4.Search 5.Exit
+
+
+Enter your choice : 5
+ 
+

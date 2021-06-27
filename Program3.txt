@@ -1,0 +1,165 @@
+Stack Operation
+#include<stdlib.h>
+#include<malloc.h>
+struct node
+{
+int data;
+struct node *LINK;
+};
+struct node *header = NULL;
+void searching()
+{
+struct node *top;
+int key,pos=0;
+top=header;
+printf("\nEnter the data to be searched");
+scanf("%d",&key);
+while(top->data!=key)
+{
+top=top->LINK;
+pos++;
+if(top==NULL)
+break;
+}
+if(top==NULL){
+printf("\nThe %d value does not exist in the stack ",key);
+return;
+}
+if(top->data==key){
+printf("\n%d is available in location '%d'",key,pos+1);
+}
+}
+void pop()
+{
+struct node *top;
+top=header;
+if(top==NULL)
+{
+printf("The stack is empty");
+}
+else
+{
+header=top->LINK;
+printf("%d deleted ",top->data);
+free(top);
+}
+}
+void push()
+{
+struct node *top;
+top=(struct node *)malloc(sizeof(struct node *));
+if(top==NULL)
+printf("\nNo space available ");
+else{
+printf("\nEnter the data to be inserted : ");
+scanf("%d",&top->data);
+top->LINK=NULL;
+if(header==NULL)
+header=top;
+else{
+top->LINK=header;
+header=top;
+}
+printf("\n%d inserted into the stack",top->data);
+}
+}
+void display()
+{
+struct node *top;
+if(header==NULL)
+printf("stack is empty");
+else
+{
+printf("\nElements in the stack are : ");
+top=header;
+while(top!=NULL)
+{
+printf("\t%d",top->data);
+top=top->LINK;
+}
+}
+}
+void main()
+{
+int choice;
+do
+{
+printf("\n\n1.Push Operation.\n2.Pop operation\n3.Search\n4.Display\n5.Exit");
+printf("\nEnter a choice ");
+scanf("%d",&choice);
+switch(choice)
+{
+case 1:push();break;
+case 2:pop();break;
+case 3:searching();break;
+case 4:display();break;
+case 5:exit(0);
+default: printf("\nChoosen an invalid number");
+}
+}while(choice!=9);
+}
+
+
+OUTPUT
+
+1.Push Operation
+2.Pop operation
+3.Search
+4.Display
+5.Exit
+
+Enter a choice 1
+Enter the data to be inserted :10
+10 inserted into the stack
+1.Push Operation
+2.Pop operation
+3.Search
+4.Display
+5.Exit
+
+Enter a choice 1
+Enter the data to be inserted :20
+20 inserted into the stack
+1.Push Operation
+2.Pop operation
+3.Search
+4.Display
+5.Exit
+
+Enter a choice 1
+Enter the data to be inserted :30
+30 inserted into the stack
+1.Push Operation
+2.Pop operation
+3.Search
+4.Display
+5.Exit
+
+Enter a choice 2
+30 deleted
+1.Push Operation
+2.Pop operation
+3.Search
+4.Display
+5.Exit
+
+Enter a choice 4
+Elements in the stack are :10 20
+1.Push Operation
+2.Pop operation
+3.Search
+4.Display
+5.Exit
+
+Enter a choice 3
+Enter the data to be searched 20
+20 is available in location 2
+1.Push Operation
+2.Pop operation
+3.Search
+4.Display
+5.Exit
+
+Enter a choice 5
+
+
